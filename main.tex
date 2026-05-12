@@ -1,0 +1,251 @@
+\documentclass[11pt,a4paper]{article}
+
+% ── Packages ────────────────────────────────────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{siunitx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{lineno}
+
+% ── Metadata ────────────────────────────────────────────────────────────────
+\hypersetup{
+  pdftitle={Climate-Driven Energy Demand Shifts in the Kisalfold Region},
+  pdfauthor={Author Name},
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=blue!60!black,
+  urlcolor=blue!60!black,
+}
+
+% ── Custom commands ──────────────────────────────────────────────────────────
+\newcommand{\HDD}{\mathrm{HDD}}
+\newcommand{\CDD}{\mathrm{CDD}}
+\newcommand{\degC}{$^\circ$C}
+\newcommand{\todo}[1]{\textcolor{red}{\textbf{[TODO: #1]}}}
+
+% ── Line numbers (remove before submission) ──────────────────────────────────
+\linenumbers
+
+% ============================================================================
+\begin{document}
+
+\title{Climate-Driven Energy Demand Shifts in the Kisalf\"{o}ld Region:\\
+Historical Correlations, Future Projections,\\
+and Infrastructure Loss Implications}
+
+\author{
+  Author Name\thanks{Corresponding author. \texttt{your@email.com}}\\
+  \small P\'{a}pa, Kisalf\"{o}ld, Hungary
+}
+
+\date{\today}
+
+\maketitle
+
+% ── Abstract ────────────────────────────────────────────────────────────────
+\begin{abstract}
+Rising temperatures driven by anthropogenic climate change are expected to 
+substantially alter patterns of energy consumption across Central Europe. 
+This study investigates the historical relationship between surface temperature 
+and electricity demand in the Kisalf\"{o}ld region of Hungary --- a lowland 
+agricultural area characterised by high summer temperature variability --- 
+and projects how this relationship evolves under CMIP6 warming scenarios 
+of \SI{1.5}{\celsius}, \SI{2}{\celsius}, and \SI{3}{\celsius} above 
+pre-industrial levels by 2050. Using ERA5 reanalysis data spanning 1970--2024, 
+local twice-daily atmospheric soundings, and Hungarian national grid load 
+records from MAVIR and ENTSO-E, we train an XGBoost demand model achieving 
+\todo{RMSE} on held-out test years. Projections suggest 
+\todo{X--Y}\% increases in annual cooling degree days by mid-century under 
+a \SI{2}{\celsius} scenario. Critically, we estimate that 
+\todo{Z}\% of the associated increase in generated electricity will be 
+lost to grid transmission inefficiencies exacerbated by elevated ambient 
+temperatures, representing a compounded infrastructure challenge. 
+An interactive Progressive Web Application accompanying this paper makes 
+all projections publicly accessible.
+\end{abstract}
+
+\textbf{Keywords:} climate change, energy demand, Kisalf\"{o}ld, Heating 
+Degree Days, Cooling Degree Days, XGBoost, CMIP6, grid transmission losses, 
+Hungary
+
+\hrule
+\vspace{1em}
+
+% ── 1. Introduction ──────────────────────────────────────────────────────────
+\section{Introduction}
+\label{sec:introduction}
+
+The relationship between ambient temperature and electricity demand is 
+well-established in the literature \citep{\todo{ref}}. As global mean 
+temperatures rise, two opposing forces reshape regional demand profiles: 
+declining heating requirements in winter months and sharply increasing 
+cooling requirements in summer, driven by growing air conditioning 
+adoption \citep{\todo{ref}}. The net effect is non-linear, 
+geographically heterogeneous, and sensitive to the socioeconomic context 
+of the affected region.
+
+The Kisalf\"{o}ld (\textit{Little Hungarian Plain}) is a lowland region 
+straddling northwestern Hungary and eastern Austria, characterised by 
+continental climate dynamics, intensive agriculture, and increasing 
+summer heat stress. \todo{Add 1--2 sentences on why this region is 
+particularly interesting/vulnerable.}
+
+This study makes three contributions:
+\begin{enumerate}
+  \item A historical correlation analysis of temperature and grid load 
+    for Hungary using ERA5 and ENTSO-E data (1970--2024), cross-validated 
+    against locally collected atmospheric soundings from P\'{a}pa (2025--present).
+  \item Demand projections under three CMIP6 warming scenarios to 2050, 
+    using a gradient-boosted regression model with SHAP-based interpretability.
+  \item A novel quantification of the compounded infrastructure loss effect --- 
+    how heat-induced increases in transmission losses amplify the gap between 
+    generated and consumed electricity.
+\end{enumerate}
+
+% ── 2. Data ──────────────────────────────────────────────────────────────────
+\section{Data}
+\label{sec:data}
+
+\subsection{ERA5 Reanalysis}
+\label{sec:data_era5}
+
+Surface temperature (\SI{2}{\metre} air temperature), solar radiation 
+(surface downwelling shortwave), and wind components were obtained from 
+the ERA5 reanalysis \citep{hersbach2020era5} via the Copernicus Climate 
+Data Store at \SI{0.25}{\degree} horizontal resolution. Data were spatially 
+averaged over the Kisalf\"{o}ld bounding box 
+($\SI{47.2}{\degree}$--$\SI{47.8}{\degree}$N, 
+$\SI{17.0}{\degree}$--$\SI{18.0}{\degree}$E) 
+for the period 1970--2024.
+
+\subsection{Local Atmospheric Soundings}
+\label{sec:data_soundings}
+
+\todo{Describe your sounding collection: location, frequency, instrument, 
+period. Mention validation against OMSZ Gy\H{o}r station.}
+
+\subsection{Hungarian Grid Load Data}
+\label{sec:data_load}
+
+Hourly national electricity load data for Hungary were obtained from 
+the ENTSO-E Transparency Platform \citep{entsoe} 
+(bidding zone \texttt{10YHU-MAVIR----U}) for 2015--2024, 
+and from MAVIR annual reports for earlier years. \todo{Describe any 
+preprocessing, missing data handling.}
+
+\subsection{CMIP6 Climate Projections}
+\label{sec:data_cmip6}
+
+Future temperature trajectories were derived from the CMIP6 multi-model 
+ensemble \citep{eyring2016cmip6} under Shared Socioeconomic Pathways 
+SSP1-2.6 (\SI{1.5}{\celsius}), SSP2-4.5 (\SI{2}{\celsius}), and 
+SSP5-8.5 (\SI{3}{\celsius}). \todo{Specify which models used, 
+bias correction method.}
+
+% ── 3. Methods ───────────────────────────────────────────────────────────────
+\section{Methods}
+\label{sec:methods}
+
+\subsection{Degree Day Calculation}
+\label{sec:methods_dd}
+
+Heating Degree Days (HDD) and Cooling Degree Days (CDD) were calculated 
+using the Hungarian standard base temperatures of \SI{15.5}{\celsius} 
+and \SI{18.0}{\celsius} respectively:
+
+\begin{align}
+  \HDD_d &= \max(T_\mathrm{base,H} - \bar{T}_d,\ 0) \label{eq:hdd} \\
+  \CDD_d &= \max(\bar{T}_d - T_\mathrm{base,C},\ 0) \label{eq:cdd}
+\end{align}
+
+where $\bar{T}_d$ is the daily mean surface temperature on day $d$.
+
+\subsection{Demand Model}
+\label{sec:methods_model}
+
+\todo{Describe XGBoost setup, features, train/test split, 
+cross-validation strategy, hyperparameter tuning.}
+
+\subsection{Transmission Loss Model}
+\label{sec:methods_losses}
+
+\todo{Describe how grid losses are estimated from ENTSO-E 
+generation vs. load delta, and how ambient temperature 
+modulates resistance losses.}
+
+% ── 4. Results ───────────────────────────────────────────────────────────────
+\section{Results}
+\label{sec:results}
+
+\subsection{Historical Temperature–Demand Correlation}
+\label{sec:results_historical}
+
+\todo{Figures and analysis here.}
+
+\subsection{Demand Projections to 2050}
+\label{sec:results_projections}
+
+\todo{Scenario comparison figures here.}
+
+\subsection{Infrastructure Loss Amplification}
+\label{sec:results_losses}
+
+\todo{Loss analysis figures here.}
+
+% ── 5. Discussion ────────────────────────────────────────────────────────────
+\section{Discussion}
+\label{sec:discussion}
+
+\todo{Interpret results, compare with regional literature, 
+discuss limitations and uncertainties.}
+
+% ── 6. Conclusion ────────────────────────────────────────────────────────────
+\section{Conclusion}
+\label{sec:conclusion}
+
+\todo{Summarise findings and policy implications.}
+
+% ── Acknowledgements ─────────────────────────────────────────────────────────
+\section*{Acknowledgements}
+
+ERA5 data were obtained from the Copernicus Climate Change Service. 
+ENTSO-E Transparency Platform data are used under their open data policy. 
+\todo{Add any other acknowledgements.}
+
+% ── Data Availability ────────────────────────────────────────────────────────
+\section*{Data and Code Availability}
+
+All code, processed datasets, and an interactive visualisation are 
+publicly available at:\\
+\url{https://github.com/Zoomb-o/kisalfold-climate-energy}
+
+% ── References ───────────────────────────────────────────────────────────────
+\bibliographystyle{apalike}
+\bibliography{references}
+
+% ── Appendix ─────────────────────────────────────────────────────────────────
+\appendix
+
+\section{Sounding Station Metadata}
+\label{app:soundings}
+
+\todo{Table with sounding station coordinates, elevation, 
+collection period, instrument details.}
+
+\section{Model Hyperparameters}
+\label{app:hyperparams}
+
+\todo{Full XGBoost hyperparameter table.}
+
+\end{document}

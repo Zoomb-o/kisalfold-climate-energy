@@ -1,0 +1,30 @@
+# Core data
+numpy>=1.26
+pandas>=2.2
+xarray>=2024.1
+netCDF4>=1.6
+zarr>=2.17
+
+# Climate / meteorology
+cdsapi>=0.7          # Copernicus CDS (ERA5, CMIP6)
+entsoe-py>=0.6       # ENTSO-E Transparency API
+metpy>=1.6           # Meteorological calculations (HDD/CDD, sounding analysis)
+
+# Machine learning
+scikit-learn>=1.4
+xgboost>=2.0
+shap>=0.45           # Model explainability for the paper
+
+# Visualization
+matplotlib>=3.8
+plotly>=5.20
+seaborn>=0.13
+
+# Notebooks
+jupyter>=1.0
+ipykernel>=6.29
+
+# Utilities
+python-dotenv>=1.0   # API key management
+requests>=2.31
+tqdm>=4.66
