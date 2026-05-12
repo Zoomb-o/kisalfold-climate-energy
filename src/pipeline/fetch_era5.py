@@ -74,12 +74,11 @@ def main():
         print("Get it at: https://cds.climate.copernicus.eu/user/login")
         return
 
-    uid, key = api_key.split(":", 1)
     client = cdsapi.Client(
-        url=os.getenv("CDS_API_URL", "https://cds.climate.copernicus.eu/api/v2"),
-        key=f"{uid}:{key}",
-        quiet=False,
-    )
+    url=os.getenv("CDS_API_URL", "https://cds.climate.copernicus.eu/api"),
+    key=api_key,
+    quiet=False,
+)
 
     print(f"Downloading ERA5 for Kisalföld ({START_YEAR}–{END_YEAR})...")
     print(f"Bounding box: {BBOX}")
