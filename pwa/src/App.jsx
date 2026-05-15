@@ -29,9 +29,11 @@ const scenarioColor = {
 }
 
 // ── CSV loader ────────────────────────────────────────────────────────────
+const BASE = import.meta.env.BASE_URL
+
 function loadCSV(path) {
   return new Promise((resolve) => {
-    Papa.parse(path, {
+    Papa.parse(BASE + path, {
       download: true,
       header: true,
       dynamicTyping: true,
@@ -185,10 +187,10 @@ export default function App() {
 
   useEffect(() => {
     Promise.all([
-      loadCSV("/data/era5_daily.csv"),
-      loadCSV("/data/master_dataset.csv"),
-      loadCSV("/data/cmip6_projections.csv"),
-      loadCSV("/data/demand_projections.csv"),
+      loadCSV("data/era5_daily.csv"),
+      loadCSV("data/master_dataset.csv"),
+      loadCSV("data/cmip6_projections.csv"),
+      loadCSV("data/demand_projections.csv"),
     ]).then(([e, m, p, d]) => {
       setEra5(e)
       setMaster(m)
