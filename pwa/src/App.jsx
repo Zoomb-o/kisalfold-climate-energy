@@ -619,6 +619,7 @@ export default function App() {
               { label: "GitHub Repository", href: "https://github.com/Zoomb-o/kisalfold-climate-energy" },
               { label: "ERA5 Data (Copernicus)", href: "https://cds.climate.copernicus.eu" },
               { label: "ENTSO-E Transparency", href: "https://transparency.entsoe.eu" },
+              { label: "Read the Paper (Zenodo)", href: "https://doi.org/10.5281/zenodo.20230176" },
             ].map(link => (
               <a key={link.label} href={link.href} target="_blank" rel="noopener"
                 style={{

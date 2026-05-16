@@ -5,6 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/)
 [![arXiv](https://img.shields.io/badge/arXiv-preprint-red.svg)](#)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20230176.svg)](https://doi.org/10.5281/zenodo.20230176)
 
 A reproducible research project investigating how climate change affects energy consumption in the Kisalföld region of Hungary, combining local atmospheric sounding data with historical grid records and CMIP6 climate projections.
 
@@ -106,9 +107,8 @@ A PWA (Progressive Web App) presenting the results interactively is available at
 
 ## Paper
 
-The preprint is available on arXiv: *(link will be added upon submission)*
-
-LaTeX source is in the `paper/` directory.
+The preprint is available on Zenodo:
+**[doi.org/10.5281/zenodo.20230176](https://doi.org/10.5281/zenodo.20230176)**
 
 ---
 
